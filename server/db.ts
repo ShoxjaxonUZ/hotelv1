@@ -151,29 +151,5 @@ function initSchema(database: Database) {
         [1, r, roomTypes[r - 1], prices[r - 1], 10, 'available']
       );
     }
-
-    // Add initial realistic bookings with cash and card payments
-    const today = new Date().toISOString().slice(0, 10);
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
-    const inThreeDays = new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10);
-    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-
-    // Guest 1 in Room 1 (Naqt: 300,000, Karta: 200,000, Avans: 100,000, Qarz: 0)
-    database.run(`
-      INSERT INTO bookings (branch_id, room_id, guest_name, cash_payment, card_payment, advance_payment, debt, check_in_date, check_out_date, status, phone, notes)
-      VALUES (1, 1, 'Alisher Qodirov', 300000, 200000, 100000, 0, '${today}', '${tomorrow}', 'active', '+998 90 123-45-67', 'Passport nusxasi olindi');
-    `);
-
-    // Guest 2 in Room 1 (Shared room with 10-person capacity)
-    database.run(`
-      INSERT INTO bookings (branch_id, room_id, guest_name, cash_payment, card_payment, advance_payment, debt, check_in_date, check_out_date, status, phone, notes)
-      VALUES (1, 1, 'Bobur Mirzaev', 250000, 150000, 50000, 0, '${today}', '${inThreeDays}', 'active', '+998 97 555-11-22', 'Do''stlar guruhi');
-    `);
-
-    // Guest in Room 3 (With debt)
-    database.run(`
-      INSERT INTO bookings (branch_id, room_id, guest_name, cash_payment, card_payment, advance_payment, debt, check_in_date, check_out_date, status, phone, notes)
-      VALUES (1, 3, 'Malika Karimova', 150000, 100000, 50000, 100000, '${yesterday}', '${inThreeDays}', 'active', '+998 93 987-65-43', 'Ertaga qarzni to''laydi');
-    `);
   }
 }

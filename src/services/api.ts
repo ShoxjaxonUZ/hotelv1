@@ -9,28 +9,36 @@ import {
 
 // Storage keys for Cloud / Serverless offline fallback
 const STORAGE_KEYS = {
-  BRANCHES: 'hotel_branches_data',
-  BOOKINGS: 'hotel_bookings_data'
+  BRANCHES: 'hotel_branches_v4',
+  BOOKINGS: 'hotel_bookings_v4'
 };
 
-// Initial fallback seed
+// Clear any legacy mock data from previous versions
+try {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    window.localStorage.removeItem('hotel_branches_data');
+    window.localStorage.removeItem('hotel_bookings_data');
+  }
+} catch {}
+
+// Initial fallback seed (Clean 0 start)
 function getInitialFallbackData() {
   const branches: Branch[] = [
     {
       id: 1,
-      name: '1-Filial (Bosh bino)',
-      address: "Toshkent sh., Amir Temur ko'chasi, 45",
+      name: '1-Filial (Bodomzor)',
+      address: "Toshkent sh., Bodomzor yo'li",
       phone: '+998 (71) 200-11-22',
       total_rooms: 8,
-      occupied_rooms: 1,
-      available_rooms: 7,
-      active_guests_total: 2,
+      occupied_rooms: 0,
+      available_rooms: 8,
+      active_guests_total: 0,
       total_capacity: 80,
-      total_cash: 550000,
-      total_card: 350000,
-      total_advance: 150000,
+      total_cash: 0,
+      total_card: 0,
+      total_advance: 0,
       total_debt: 0,
-      total_bookings: 2
+      total_bookings: 0
     },
     {
       id: 2,
@@ -50,52 +58,7 @@ function getInitialFallbackData() {
     }
   ];
 
-  const today = new Date().toISOString().slice(0, 10);
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
-  const inThreeDays = new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10);
-
-  const bookings: Booking[] = [
-    {
-      id: 1,
-      branch_id: 1,
-      room_id: 1,
-      room_number: 1,
-      slot_number: 1,
-      guest_name: 'Alisher Qodirov',
-      cash_payment: 300000,
-      card_payment: 200000,
-      advance_payment: 100000,
-      debt: 0,
-      check_in_date: today,
-      check_out_date: tomorrow,
-      status: 'active',
-      phone: '+998 90 123-45-67',
-      notes: '1-o\'rin',
-      branch_name: '1-Filial (Bosh bino)',
-      room_type: 'Standart',
-      created_at: today
-    },
-    {
-      id: 2,
-      branch_id: 1,
-      room_id: 1,
-      room_number: 1,
-      slot_number: 2,
-      guest_name: 'Bobur Mirzaev',
-      cash_payment: 250000,
-      card_payment: 150000,
-      advance_payment: 50000,
-      debt: 0,
-      check_in_date: today,
-      check_out_date: inThreeDays,
-      status: 'active',
-      phone: '+998 97 555-11-22',
-      notes: '2-o\'rin',
-      branch_name: '1-Filial (Bosh bino)',
-      room_type: 'Standart',
-      created_at: today
-    }
-  ];
+  const bookings: Booking[] = [];
 
   return { branches, bookings };
 }
@@ -202,8 +165,8 @@ export function resetToCleanEmptyData(): void {
   const cleanBranches: Branch[] = [
     {
       id: 1,
-      name: '1-Filial (Bosh bino)',
-      address: "Toshkent sh., Amir Temur ko'chasi, 45",
+      name: '1-Filial (Bodomzor)',
+      address: "Toshkent sh., Bodomzor yo'li",
       phone: '+998 (71) 200-11-22',
       total_rooms: 8,
       occupied_rooms: 0,
@@ -238,8 +201,7 @@ export function resetToCleanEmptyData(): void {
 }
 
 export function resetToSampleData(): void {
-  localStorage.removeItem(STORAGE_KEYS.BRANCHES);
-  localStorage.removeItem(STORAGE_KEYS.BOOKINGS);
+  resetToCleanEmptyData();
 }
 
 export async function fetchBranches(): Promise<Branch[]> {
