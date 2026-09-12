@@ -393,8 +393,6 @@ export default function App() {
             onOpenNewBranchModal={handleOpenAddBranch}
             onEditBranch={handleOpenEditBranch}
             onDeleteBranch={handleOpenDeleteBranch}
-            onResetCleanData={handleResetCleanData}
-            onResetSampleData={handleResetSampleData}
           />
         )}
 

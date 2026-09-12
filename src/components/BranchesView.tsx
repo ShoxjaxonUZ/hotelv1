@@ -11,8 +11,6 @@ interface BranchesViewProps {
   onOpenNewBranchModal: () => void;
   onEditBranch: (branch: Branch) => void;
   onDeleteBranch: (branch: Branch) => void;
-  onResetCleanData?: () => void;
-  onResetSampleData?: () => void;
 }
 
 export const BranchesView: React.FC<BranchesViewProps> = ({
@@ -22,9 +20,7 @@ export const BranchesView: React.FC<BranchesViewProps> = ({
   onOpenMonthlyReports,
   onOpenNewBranchModal,
   onEditBranch,
-  onDeleteBranch,
-  onResetCleanData,
-  onResetSampleData
+  onDeleteBranch
 }) => {
   // Aggregate stats across all branches
   const totalRooms = branches.reduce((acc, b) => acc + (b.total_rooms || 8), 0);
@@ -80,29 +76,6 @@ export const BranchesView: React.FC<BranchesViewProps> = ({
               <FileText className="w-4 h-4 text-indigo-400" />
               <span>Oylik PDF</span>
             </button>
-
-            {onResetCleanData && (
-              <button
-                onClick={onResetCleanData}
-                className="px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-900/80 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 text-xs font-semibold rounded-xl border border-slate-700/60 transition-all flex items-center gap-1.5 cursor-pointer"
-                title="Barcha xonalarni bo'shatish va toza (0 dan) holatda boshlash"
-              >
-                <Trash2 className="w-3.5 h-3.5 text-rose-400" />
-                <span className="hidden min-[480px]:inline">Toza holat (0 dan)</span>
-                <span className="min-[480px]:hidden">Tozalash</span>
-              </button>
-            )}
-
-            {onResetSampleData && (
-              <button
-                onClick={onResetSampleData}
-                className="px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-900/80 hover:bg-indigo-950/40 text-slate-400 hover:text-indigo-300 text-xs font-semibold rounded-xl border border-slate-700/60 transition-all flex items-center gap-1.5 cursor-pointer"
-                title="Namunaviy mehmonlar va to'lovlarni yuklash"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden min-[480px]:inline">Namuna</span>
-              </button>
-            )}
           </div>
         </div>
 
