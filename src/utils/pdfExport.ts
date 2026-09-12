@@ -23,7 +23,7 @@ export function exportDailyReportToPDF(reportData: DailyReportResponse) {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(18);
   doc.setFont('helvetica', 'bold');
-  doc.text('MEHMONXONA BOSHQARUV TIZIMI - KUNLIK HISOBOT', 14, 12);
+  doc.text('BODOMZOR HOTEL - KUNLIK MOLIYAVIY HISOBOT', 14, 12);
 
   doc.setFontSize(10.5);
   doc.setFont('helvetica', 'normal');
@@ -197,7 +197,7 @@ export function exportMonthlyReportToPDF(reportData: MonthlyReportResponse) {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(18);
   doc.setFont('helvetica', 'bold');
-  doc.text('MEHMONXONA BOSHQARUV TIZIMI - OYLIK HISOBOT', 14, 12);
+  doc.text('BODOMZOR HOTEL - OYLIK MOLIYAVIY HISOBOT', 14, 12);
 
   doc.setFontSize(10.5);
   doc.setFont('helvetica', 'normal');
@@ -374,7 +374,7 @@ export function exportRoomBookingsToPDF(
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
-  doc.text('MEHMONXONA BOSHQARUV TIZIMI - XONA HUJJATI', 14, 11);
+  doc.text('BODOMZOR HOTEL - XONA MEHMONLARI RO\'YXATI', 14, 11);
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');

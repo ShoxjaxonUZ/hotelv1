@@ -145,35 +145,57 @@ export async function loginAdmin(username: string, password: string) {
     }
   } catch {}
 
-  const u = (username || '').trim().toLowerCase();
+  const rawUser = (username || '').trim();
+  const u = rawUser.toLowerCase();
   const p = (password || '').trim();
 
-  // Flexible and forgiving login for demonstration to boss
+  // Official Bodomzor-Hotel credentials
+  if (u === 'bodomzor-hotel' || u === 'bodomzor' || u === 'bodomzorhotel') {
+    if (p === 'Bodom1225' || p === 'bodom1225' || p === 'admin123') {
+      return {
+        user: {
+          id: 1,
+          username: 'Bodomzor-Hotel',
+          name: 'Bodomzor Hotel Rahbariyati',
+          role: 'admin'
+        },
+        token: 'bodomzor-token-' + Date.now()
+      };
+    } else {
+      throw new Error("Parol noto'g'ri. Bodomzor Hotel parolini kiriting");
+    }
+  }
+
+  // Fallback for admin / boss
   if (
-    !u ||
     u === 'admin' ||
     u === 'xojayin' ||
     u === 'boss' ||
     u === 'rahbar' ||
-    u === 'mehmon' ||
     u === 'manager'
   ) {
+    if (p === 'admin123' || p === 'Bodom1225' || p === 'bodom1225' || p === 'admin') {
+      return {
+        user: {
+          id: 1,
+          username: 'Bodomzor-Hotel',
+          name: 'Bodomzor Hotel Bosh Rahbari',
+          role: 'admin'
+        },
+        token: 'local-token-' + Date.now()
+      };
+    }
+  }
+
+  // Any other valid credentials
+  if (rawUser && p === 'Bodom1225') {
     return {
-      user: {
-        id: 1,
-        username: u || 'admin',
-        name: u === 'xojayin' || u === 'boss' || u === 'rahbar' ? 'Bosh Rahbar' : 'Bosh Administrator',
-        role: 'admin'
-      },
+      user: { id: 1, username: rawUser, name: `Bodomzor Hotel (${rawUser})`, role: 'admin' },
       token: 'local-token-' + Date.now()
     };
   }
 
-  // If any other credentials provided
-  return {
-    user: { id: 1, username: u, name: `Administrator (${username})`, role: 'admin' },
-    token: 'local-token-' + Date.now()
-  };
+  throw new Error("Noto'g'ri login yoki parol. Iltimos, ma'lumotlarni tekshiring.");
 }
 
 export function resetToCleanEmptyData(): void {

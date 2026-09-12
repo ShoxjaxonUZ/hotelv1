@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div className="min-w-0">
               <div className="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
-                <span className="truncate max-w-[110px] min-[400px]:max-w-none">Grand Hotel</span>
+                <span className="truncate max-w-[130px] min-[400px]:max-w-none">Bodomzor Hotel</span>
                 <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800/60 shrink-0">
                   {branches.length > 0 ? `${branches.length} Filial` : 'Filial'}
                 </span>
