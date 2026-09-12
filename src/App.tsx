@@ -18,7 +18,9 @@ import {
   fetchRoomBookings, 
   createBooking, 
   updateBooking, 
-  deleteBooking 
+  deleteBooking,
+  resetToCleanEmptyData,
+  resetToSampleData
 } from './services/api';
 import { User, Branch, Room, Booking, RoomDetailResponse } from './types';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
@@ -321,6 +323,24 @@ export default function App() {
     await loadBranches();
   };
 
+  const handleResetCleanData = async () => {
+    resetToCleanEmptyData();
+    showNotification("Barcha xonalar bo'shatildi: toza (0 dan) holatga o'tkazildi", 'success');
+    await loadBranches();
+    if (selectedBranchId) {
+      await loadBranchRooms(selectedBranchId);
+    }
+  };
+
+  const handleResetSampleData = async () => {
+    resetToSampleData();
+    showNotification("Namunaviy mehmonlar va to'lovlar qayta yuklandi", 'success');
+    await loadBranches();
+    if (selectedBranchId) {
+      await loadBranchRooms(selectedBranchId);
+    }
+  };
+
   // If not authenticated, render Login Page
   if (!currentUser) {
     return <LoginPage onLoginSuccess={handleLoginSuccess} />;
@@ -373,6 +393,8 @@ export default function App() {
             onOpenNewBranchModal={handleOpenAddBranch}
             onEditBranch={handleOpenEditBranch}
             onDeleteBranch={handleOpenDeleteBranch}
+            onResetCleanData={handleResetCleanData}
+            onResetSampleData={handleResetSampleData}
           />
         )}
 
