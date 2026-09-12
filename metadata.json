@@ -1,0 +1,7 @@
+{
+  "name": "Mehmonxona Boshqaruv Tizimi",
+  "description": "Mehmonxona boshqaruv tizimi (Admin Panel): dinamik filiallar boshqaruvi, 10 kishilik xonalar sig'imi, naqt va karta to'lovlari, qarzlar monitoringi hamda kunlik va oylik PDF hisobotlar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
