@@ -17,6 +17,19 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Asosiy sahifa (Bosh sahifaga kirganda "Cannot GET /" chiqmasligi uchun)
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    message: '🏨 Bodomzor Hotel Backend API muvaffaqiyatli ishlamoqda!',
+    endpoints: {
+      health: '/api/health',
+      branches: '/api/branches',
+      login: '/api/auth/login'
+    }
+  });
+});
+
 // Server sog'lig'ini tekshirish uchun endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
