@@ -66,7 +66,7 @@ async function initDB() {
       console.log('🌱 Boshlang\'ich 1-filial va xonalar yaratilmoqda...');
       const newBranch = await client.query(`
         INSERT INTO branches (name, address, phone) 
-        VALUES ('1-Filial (Bosh bino)', 'Toshkent sh., Amir Temur ko''chasi, 45', '+998 (71) 200-11-22') 
+        VALUES ('1-Filial (Bodomzor)', 'Toshkent sh., Bodomzor yo''li', '+998 (71) 200-11-22') 
         RETURNING id;
       `);
       const branchId = newBranch.rows[0].id;

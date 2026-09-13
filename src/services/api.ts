@@ -7,6 +7,9 @@ import {
   ReportRecord 
 } from '../types';
 
+// Render / External API base URL (configured via VITE_API_URL on Vercel)
+const API_BASE = (((import.meta as any).env?.VITE_API_URL || '') as string).replace(/\/$/, '');
+
 // Storage keys for Cloud / Serverless offline fallback
 const STORAGE_KEYS = {
   BRANCHES: 'hotel_branches_v4',
@@ -97,7 +100,7 @@ function saveLocalBookings(bookings: Booking[]) {
 
 export async function loginAdmin(username: string, password: string) {
   try {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -206,7 +209,7 @@ export function resetToSampleData(): void {
 
 export async function fetchBranches(): Promise<Branch[]> {
   try {
-    const res = await fetch('/api/branches');
+    const res = await fetch(`${API_BASE}/api/branches`);
     const data = await res.json();
     if (res.ok && data.branches) {
       saveLocalBranches(data.branches);
@@ -219,7 +222,7 @@ export async function fetchBranches(): Promise<Branch[]> {
 export async function createBranch(payload: { name: string; address?: string; phone?: string; rooms_count?: number }): Promise<Branch> {
   const roomsCount = Number(payload.rooms_count) || 8;
   try {
-    const res = await fetch('/api/branches', {
+    const res = await fetch(`${API_BASE}/api/branches`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...payload, rooms_count: roomsCount })
@@ -257,7 +260,7 @@ export async function createBranch(payload: { name: string; address?: string; ph
 
 export async function updateBranch(id: number, payload: { name: string; address?: string; phone?: string }): Promise<Branch> {
   try {
-    const res = await fetch(`/api/branches/${id}`, {
+    const res = await fetch(`${API_BASE}/api/branches/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -279,7 +282,7 @@ export async function updateBranch(id: number, payload: { name: string; address?
 
 export async function deleteBranch(id: number): Promise<void> {
   try {
-    const res = await fetch(`/api/branches/${id}`, {
+    const res = await fetch(`${API_BASE}/api/branches/${id}`, {
       method: 'DELETE'
     });
     if (res.ok) {
@@ -299,7 +302,7 @@ export async function deleteBranch(id: number): Promise<void> {
 
 export async function fetchBranchRooms(branchId: number): Promise<{ branch: Branch; rooms: any[] }> {
   try {
-    const res = await fetch(`/api/branches/${branchId}/rooms`);
+    const res = await fetch(`${API_BASE}/api/branches/${branchId}/rooms`);
     const data = await res.json();
     if (res.ok && data.rooms) {
       return data;
@@ -333,7 +336,7 @@ export async function fetchBranchRooms(branchId: number): Promise<{ branch: Bran
 
 export async function fetchRoomBookings(branchId: number, roomNumber: number): Promise<RoomDetailResponse> {
   try {
-    const res = await fetch(`/api/branches/${branchId}/rooms/${roomNumber}/bookings`);
+    const res = await fetch(`${API_BASE}/api/branches/${branchId}/rooms/${roomNumber}/bookings`);
     const data = await res.json();
     if (res.ok && data.room) {
       return data;
@@ -386,7 +389,7 @@ export async function fetchRoomBookings(branchId: number, roomNumber: number): P
 
 export async function createBooking(payload: Partial<Booking>): Promise<Booking> {
   try {
-    const res = await fetch('/api/bookings', {
+    const res = await fetch(`${API_BASE}/api/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -450,7 +453,7 @@ export async function updateBooking(id: number, payload: Partial<Booking>): Prom
 
 export async function deleteBooking(id: number): Promise<void> {
   try {
-    const res = await fetch(`/api/bookings/${id}`, {
+    const res = await fetch(`${API_BASE}/api/bookings/${id}`, {
       method: 'DELETE'
     });
     if (res.ok) {
@@ -467,7 +470,7 @@ export async function deleteBooking(id: number): Promise<void> {
 export async function fetchDailyReport(branchId: string, date: string): Promise<DailyReportResponse> {
   try {
     const params = new URLSearchParams({ branchId, date });
-    const res = await fetch(`/api/reports/daily?${params.toString()}`);
+    const res = await fetch(`${API_BASE}/api/reports/daily?${params.toString()}`);
     const data = await res.json();
     if (res.ok && data.records) {
       return data;
@@ -517,7 +520,7 @@ export async function fetchDailyReport(branchId: string, date: string): Promise<
 export async function fetchMonthlyReport(branchId: string, month: string, year: string): Promise<MonthlyReportResponse> {
   try {
     const params = new URLSearchParams({ branchId, month, year });
-    const res = await fetch(`/api/reports/monthly?${params.toString()}`);
+    const res = await fetch(`${API_BASE}/api/reports/monthly?${params.toString()}`);
     const data = await res.json();
     if (res.ok && data.records) {
       return data;

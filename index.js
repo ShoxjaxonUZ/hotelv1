@@ -20,6 +20,42 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// POST /api/auth/login — Admin kirishi
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body || {};
+  const u = (username || '').trim().toLowerCase();
+  const p = (password || '').trim();
+
+  if ((u === 'bodomzor-hotel' || u === 'bodomzor' || u === 'bodomzorhotel') && (p === 'Bodom1225' || p === 'bodom1225')) {
+    return res.json({
+      success: true,
+      user: {
+        id: 1,
+        username: 'Bodomzor-Hotel',
+        name: 'Bodomzor Hotel Rahbariyati',
+        role: 'admin'
+      },
+      token: 'bodomzor-jwt-token-' + Date.now()
+    });
+  }
+
+  // Backup fallback
+  if (u === 'admin' && (p === 'Bodom1225' || p === 'admin123')) {
+    return res.json({
+      success: true,
+      user: {
+        id: 1,
+        username: 'Bodomzor-Hotel',
+        name: 'Bodomzor Hotel Rahbariyati',
+        role: 'admin'
+      },
+      token: 'bodomzor-jwt-token-' + Date.now()
+    });
+  }
+
+  return res.status(401).json({ error: "Noto'g'ri login yoki parol" });
+});
+
 /* ==========================================================
    1. FILIALLAR (BRANCHES) ENDPOINTS
    ========================================================== */
