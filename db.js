@@ -1,11 +1,15 @@
 // db.js
-const { Pool } = require('pg');
-require('dotenv').config();
+import pg from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { Pool } = pg;
 
 // PostgreSQL ulanishlar hovuzi (Connection Pool)
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DATABASE_URL?.includes('render.com');
 
-const pool = new Pool({
+export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.DATABASE_URL?.includes('localhost')
     ? false
@@ -13,7 +17,7 @@ const pool = new Pool({
 });
 
 // Bazadagi jadvallarni avtomatik yaratish funksiyasi
-async function initDB() {
+export async function initDB() {
   const client = await pool.connect();
   try {
     console.log('🔄 PostgreSQL ma\'lumotlar bazasiga ulanish tekshirilmoqda...');
@@ -91,8 +95,10 @@ async function initDB() {
   }
 }
 
-module.exports = {
+export const query = (text, params) => pool.query(text, params);
+
+export default {
   pool,
   initDB,
-  query: (text, params) => pool.query(text, params)
+  query
 };

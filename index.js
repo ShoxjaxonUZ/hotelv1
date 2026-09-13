@@ -1,8 +1,10 @@
 // index.js
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const { pool, initDB, query } = require('./db');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { pool, initDB, query } from './db.js';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
